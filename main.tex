@@ -1,0 +1,114 @@
+\documentclass{report}
+\usepackage{titlesec}
+\usepackage[legalpaper, landscape, margin=0.8in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\newcommand{\RomanNumeralCaps}[1]
+    {\MakeUppercase{\romannumeral #1}}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0.1,0.1,1.0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  firstnumber=1,                % start line enumeration with line 1000
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces \lstinputlisting; also try caption instead of title
+}
+
+\title{Lib UFG}
+% \author{Rafael Castro }
+\date{May 2019}
+
+\begin{document}
+
+\maketitle
+ 
+ 
+\tableofcontents{}
+    \chapter{Geometry \RomanNumeralCaps{8}}
+    \section{Convex Hull Trick}
+        \subsection{Convex Hull Trick 1}
+        This solutions only works when the coeficients are all increasing / decreasing, and the queries decreasing / increasing. Improve $O(n^2)$ to $O(n)$. (Original Problem: Codeforces - Round 189 (Div. 1) C)
+        \lstinputlisting{./solutions/ConvexHull1.cpp}
+        \subsection{Convex Hull Trick 2}
+        This solutions works under the same conditions for Convex Hull Trick 1, but it's used to solve problems in a 2D dinamic programming, like problem NKLEAVES from spoj. In resume we need to group $N$ leaves in $K$ groups, for each coordinate between 1 and $N$ there is a leaf with weight $w_i$, and the leaves can only be moved to the left, and the cost is $w_i * d$ where $d$ is the distance that leaf $i$ was moved. The problem asks for minimum cost to group the $N$ leaves in $K$ groups. Lets reverse the leaves weights, now the leafs can only be moved to the right.
+        
+        So, the recurrence is:
+        
+        \bigskip
+        
+        $dp_{i, j} = \min_{k \leq i} ( (\sum_{p=k}^{i} (i - p) * w_p) + dp_{k - 1, j - 1})$, clearly $O(n^2k)$
+        
+        \bigskip
+        
+        So we will keep our lines in such way, that we can solve this problem, see the code below. 
+        
+        This solutions only works when the coeficients are all increasing / decreasing, and the queries decreasing / increasing. Improve $O(n^2k)$ to $O(nk)$. (Original Problem: SPOJ - NKLEAVES)
+        
+        \lstinputlisting{./solutions/ConvexHullTrick2.cpp}
+    \section{Line Sweep}
+        \subsection{Points Inside Triangles}
+        Given $n$ triangles with vertices {($x_i$, $y_i$), ($x_i + d$, $y_i$), ($x_i$, $y_i + d$)}, and $q$ points, compute for each triangle, the number of points that lie inside or in boundary of him. $O(nlogn)$. (Original Problem: CODECHEF - TRIANGULAR QUERIES)
+        \lstinputlisting{./solutions/PointsInsideTriangles.cpp}
+        \subsection{Ranking Problem}
+        Given $n$ students that attended to $3$ contests, and all of them have different ranks, between $1$ and $n$ inclusive, for each contest. We say that one student $a$ is better that student $b$, if all ranks of student $a$ in each contest is lesser that student $b$. A student is said to be excellent if no other student is better than him. How many excelent students there exists ?
+        
+        This solutions runs in $O(nlogn)$. (Original Problem: SPOJ: NICEDAY)
+        
+        \lstinputlisting{./solutions/RankingProblem.cpp}
+        
+        \subsection{Balls Falls and Segments}
+        Given $n$ segments (non horizontal and with no common points), and $m$ balls in a 2D plane, say for each ball the x point which he falls.
+        
+        This solutions runs in $O(nlogn)$ but i used some Fraction class to take care with double error precisions, so the overall solution in this case is $O(nlogn^2)$. Original Problem (UVa - Water Falls).
+        
+        \lstinputlisting{./solutions/WaterFalls.cpp}
+        
+        \subsection{Checking Points Inside Convex Polygon}
+            \subsubsection{Offline}
+            Given $n$ points in 2D plane, and a Convex Polygon, check for each of these $n$ points, if them are strict inside or not of polygon.
+            
+            This solutions runs in $O(nlogn)$ but i used Fracion Class to Take Care with double error precisions, so the overall solution in this case is $O(nlogn^2)$.
+            
+            \lstinputlisting{./solutions/PointsInsideConvexPolygon.cpp}
+            
+            \subsubsection{Online}
+            Given one point and a Convex Polygon, with vertices in counter clockwise order, check if this point is inside or in boundary of him.
+            
+            This solutions runs in $O(logn)$.
+            
+            \lstinputlisting{./solutions/PointsInsideConvexPolygonOn.cpp}
+        
+        \subsection{Area of Rectangles Union}
+        Given a set of N axis aligned rectangles, you need to find the area of their union. Each rectangle is represented by two points, one lower-left point and one upper-right point. The coordinates are all integers.
+        
+        This solutions runs in $O(nlogn)$. Original Problem (HackerEarth - Line Sweep Tutorial, Sample Exercicise)
+    \section{Minimum Perimeter Triangle}
+    Given $n$ points in a 2D plane, return the minimum perimeter that can be formed taking three points, collinear points are allowed. $O(nlogn)$. (Original Problem - Google Code Jam WF 2009 - B)
+    \lstinputlisting{./solutions/MinPerimeterTriangle.cpp}
+    
+\end{document}
