@@ -70,6 +70,13 @@
         This solutions only works when the coeficients are all increasing / decreasing, and the queries decreasing / increasing. Improve $O(n^2k)$ to $O(nk)$. (Original Problem: SPOJ - NKLEAVES)
         
         \lstinputlisting{./solutions/ConvexHullTrick2.cpp}
+        
+        \subsection{Convex Hull Trick 3 (Online Queries)}
+        This solutions works without any assumption about the coeficients, in this case we will query is answered in $O(logn)$.
+        
+        Improve $O(n^2)$ to $O(nlogn)$. (Original Problem: Codeforces - Round 463 div1+div2 F. Escape Through Leaf)
+        
+        \lstinputlisting{./solutions/ConvexHullTrick3.cpp}
     \section{Line Sweep}
         \subsection{Points Inside Triangles}
         Given $n$ triangles with vertices {($x_i$, $y_i$), ($x_i + d$, $y_i$), ($x_i$, $y_i + d$)}, and $q$ points, compute for each triangle, the number of points that lie inside or in boundary of him. $O(nlogn)$. (Original Problem: CODECHEF - TRIANGULAR QUERIES)
