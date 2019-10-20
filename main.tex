@@ -10,10 +10,9 @@
 \definecolor{mygreen}{rgb}{0.1,0.1,1.0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
-
 \lstset{ 
   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
-  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  basicstyle=\large\ttfamily,        % the size of the fonts that are used for the code
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
   breaklines=true,                 % sets automatic line breaking
   captionpos=b,                    % sets the caption-position to bottom
@@ -25,7 +24,7 @@
   frame=single,	                   % adds a frame around the code
   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
   keywordstyle=\color{blue},       % keyword style
-  language=Octave,                 % the language of the code
+  language=C++,                 % the language of the code
   morekeywords={*,...},            % if you want to add more keywords to the set
   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
   numbersep=5pt,                   % how far the line-numbers are from the code
@@ -49,25 +48,86 @@
  
  
 \tableofcontents{}
+    \chapter{Algebra \RomanNumeralCaps{1}}
+    \section{Matrix Power}
+    \subsection{Simple Matrix Power}
+    (Original Problem: UVa 11486 - Finding Paths in Grid)
+    \lstinputlisting{./solutions/SimpleMatrixPower.cpp}
+    \subsection{Gauss Modular Equations}
+    Given a tree (undirected unweighted graph), assign for each node in this a color $c_i$ ($0 \leq c_i \leq k - 1)$, such that for each node $i$, $c_i$ is the sum of colors adjacents to $i$ mod $k$.
+    \bigskip
+    Compute the number of differents possible colorings.
+    \bigskip
+    Solution $O(n^3)$.
+    \bigskip
+    (Original Problem: LightOJ 1279 - Graph Coloring).
+    \lstinputlisting{./solutions/Algebra/GaussModular.cpp}
+    \subsection{Chinese Remainder Theorem}
+    Given (a, n, b, m), find a X that X = a mod n and X = b mod m, X is given mod LCM(n, m)
+    \lstinputlisting{./solutions/Algebra/crt.cpp}
+    
     \chapter{Data Structures \RomanNumeralCaps{2}}
     \section{Treap}
-    \lstinputlisting{./solutions/Treap.cpp}
+    \lstinputlisting{./solutions/DataStructures/Treap.cpp}
     \newpage
     \section{Segment Tree}
     \subsection{Simple Segment}
-    \lstinputlisting{./solutions/segtree.cpp}
+    \lstinputlisting{./solutions/DataStructures/segtree.cpp}
     \newpage
     \subsection{Segment with Lazy}
-    \lstinputlisting{./solutions/segtreelazy.cpp}
+    \lstinputlisting{./solutions/DataStructures/segtreelazy.cpp}
     \newpage
     \subsection{Persistent Segment}
-    Solutio for Spoj Cunt on a Tree,
+    Solution for Spoj Cunt on a Tree,
     Given a tree there are $Q$ queries where you need to find the $k$th minimum weigth in a path between $u$ and $v$, it also needs the lca and lca's father between $u$ and $v$.\newline
     Main idea is to build a segment tree for each node with a dfs starting from the root.
     \newline 
     Queries in $O(log(n))$
-    \lstinputlisting{./solutions/persistent_segtree.cpp}
+    \lstinputlisting{./solutions/DataStructures/persistent_segtree.cpp}
+    \subsection{Unordered Set}
+    Insert, delete and query relative position from a element in $O(logn)$.
+    
+    \bigskip
+    
+    Original Problem (Timus 1439 - Battle with You-Know-Who)
+    
+    \lstinputlisting{./solutions/DataStructures/UnorderedSet.cpp}
+    
+    \bigskip
+    \subsection{Binary Lifting}
+    Binary Search on a BIT in O(NlogN)
+    
+    \lstinputlisting{./solutions/DataStructures/binary_lifting.cpp}
+    \section{Sparse Table}
+    
+    \subsection{Simple Sparse table}
+    idempotent queries in $O(1)$, others $O(logn)$;
+    \lstinputlisting{./solutions/DataStructures/sparsetable.cpp}
+    \subsection{2D Sparse table}
+    idempotent queries in $O(1)$;
+    \lstinputlisting{./solutions/DataStructures/2Dsparsetable.cpp}
+    \chapter{String \RomanNumeralCaps{4}}
+    \section{String Hash}
+    \lstinputlisting{./solutions/String/StringHash.cpp}
+    
+    \section{Suffix Array}
+    Solution $O(nlogn)$ (Original 
+    Problem UVa 12191 - File Recover).
+    
+    \bigskip
+    
+    \lstinputlisting{./solutions/String/SuffixArray.cpp}
+    
     \chapter{Geometry \RomanNumeralCaps{8}}
+    \section{Convex Hull}
+        \subsection{Rotation Calipers}
+        Diameter from a convex Polygon.
+        
+        Solution $O(n)$. Original Problem (NCPC 2013 - D).
+        
+        \lstinputlisting{./solutions/Geometry/MaxDistanceBetweenPoints.cpp}
+        
+        
     \section{Convex Hull Trick}
         \subsection{Convex Hull Trick 1}
         This solutions only works when the coeficients are all increasing / decreasing, and the queries decreasing / increasing. Improve $O(n^2)$ to $O(n)$. (Original Problem: Codeforces - Round 189 (Div. 1) C)
@@ -110,9 +170,9 @@
         \lstinputlisting{./solutions/RankingProblem.cpp}
         \newpage
         \subsection{Balls Falls and Segments}
-        Given $n$ segments (non horizontal and with no common points), and $m$ balls in a 2D plane, say for each ball the x point which he falls.
+        Given $n$ segments (non horizontal and with no common points), and $m$ balls in a 2D plane, say for each ball the x point which he falls. (This solution was upload, the source code is just for only one ball, but the overall complexity is still $O(nlogn)$ if the number of balls is $O(n)$).
         
-        This solutions runs in $O(nlogn)$ but i used some Fraction class to take care with double error precisions, so the overall solution in this case is $O(nlogn^2)$. Original Problem (UVa - Water Falls).
+        This solutions runs in $O(nlogn)$. Original Problem (NCPC 2013 - H).
         
         \lstinputlisting{./solutions/WaterFalls.cpp}
         \newpage
@@ -135,10 +195,58 @@
         Given a set of N axis aligned rectangles, you need to find the area of their union. Each rectangle is represented by two points, one lower-left point and one upper-right point. The coordinates are all integers.
         
         This solutions runs in $O(nlogn)$. Original Problem (HackerEarth - Line Sweep Tutorial, Sample Exercicise)
+        
+        \lstinputlisting{./solutions/Geometry/RectangleUnion.cpp}
     \newpage
     \section{Minimum Perimeter Triangle}
     Given $n$ points in a 2D plane, return the minimum perimeter that can be formed taking three points, collinear points are allowed. $O(nlogn)$. (Original Problem - Google Code Jam WF 2009 - B)
     \lstinputlisting{./solutions/MinPerimeterTriangle.cpp}
+    \chapter{Graph \RomanNumeralCaps{9}}
+    \section{Flow}
+        \subsection{MinCostMaxFlow}
+            The problem is given a Graph with a source and sink vertices, each edge has a capacity $c_i$ and cost $l_i$ per unit of flow, compute the minimum cost to transport a max flow in this network. We will show some algorithm that solve this problem.
+            \subsubsection{Cycle Canceling Algorithm}
+            This algorithm takes a residual graph and max flow $f$ (eg. ford fulkerson algorithm for maximum flow), and compute the minimum cost to transport flow $f$ in this graph. It update the residual graph until graph a negative cycle, regard the edge costs, in the Graph. This implementation dont works with multiedges, this means that if edge $u->v$ exists then $v->u$ dont exists.
+            
+            \bigskip
+            
+            $O(nm^2CU)$, where $C$ is the maximum cost from a edge and $U$ maximum Capacity from a edge. (Original Problem - HackerEarth Minimum Cost Max Flow sample problem)
     
+            \lstinputlisting{./solutions/Graph/CycleCancelingAlgorithm.cpp}
+            \subsubsection{Sucessive Shortest Paths + SPFA ?}
+            
+            (Original Problem - UVa 11301 Great Wall of China $|V|$ = $10^4$ $|E|$ = $4.10^4$).
+            
+            \lstinputlisting{./solutions/Graph/SucessiveShortestPath.cpp}
+    \section{2SAT}
+    Given a formula like $\phi$ = $(a \lor b) \land (c \lor d) \land (e \lor f)...$, check if is possible assign values to the variables such that $\phi$ is evaluated to true.
     
+    \bigskip
+    
+    Solution runs in $O(N + E)$, where $O(N)$ is the number of variables, and $O(E)$ is the number of clausules $(x_i \lor y_i)$. Original Problem(UVa 11930 - Rectangles)
+    
+    \lstinputlisting{./solutions/Graph/2SAT_tarjan.cpp}
+    \section{Heavy Light Decomposition}
+        \subsection{Can you answer these queries VII}
+        Given are a tree with $n$ vertices, each vertice has a weight $x_i$, and two type of operations. Operation 1 asks for the maximum contiguous sum between two vertices $a$ and $b$. Operation 2 update the values of vertices between $a$ and $b$ to $c$. We have to process $Q$ operations.
+        
+        The problem can be solved with HLD in $O(Q(log(n))^2)$. Original Problem (SPOJ - GSS7).
+        
+        \lstinputlisting{./solutions/Graph/HLD.cpp}
+        
+        \subsection{Can you answer these queries VI}
+        Given a tree with $n$ vertices, each vertice has a color (0 or 1), and two type of operations. Operation 0 asks for how many vertices are connected to a vertice $u$, when one vertice $v$ is connected to $u$ only if the path between $u$ and $v$ just contain vertices with same color of $u$ inclusive. Operation 1 is to change the color of vertice $u$ (0 to 1 and 1 to 0).
+        
+        The problem can be solved wih HLD in $O(Q(log(n))^2)$. Original Problem (SPOJ - Can You Answer These Queries VI).
+        
+        
+        \lstinputlisting{./solutions/Graph/CanYouAnswerTheseQueriesVI.cpp}
+    \chapter{Dynamic Programming }
+    \section{Sum Over Subsets DP - SOS}
+    \lstinputlisting{./solutions/DynamicProgramming/sos_dp.cpp}
+    \chapter{Paradigms \RomanNumeralCaps{10}}
+    \section{Binary Search}
+    \subsection{Parallel Binary Search}
+    (Original Problem: Atcoder Grand Contest 2 D)
+     \lstinputlisting{./solutions/Algebra/agc002_d.cpp}
 \end{document}

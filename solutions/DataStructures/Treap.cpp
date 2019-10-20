@@ -1,27 +1,29 @@
 #define tipo int
-typedef struct node{
+ mt19937 mt_rand(time(0));
+struct Node{
     int p,cnt;
     tipo value;
     bool rev;
-    struct node * l;
-    struct node * r;
+    struct Node * l;
+    struct Node * r;
     node() { }
-    node(tipo value) : value(value), p(rand()<<15+rand()),cnt(1),rev(false), l(NULL), r(NULL) { }
+    node(tipo value) : value(value), p(mt_rand()),cnt(1),rev(false), l(NULL), r(NULL) { }
 
-}Node;
+};
+typedef Node * pnode;
 
-int cnt (Node * t) {
+int cnt (pnode t) {
     return t ? t->cnt : 0;
 }
 
-void upd_cnt (Node * t) {
+void upd_cnt (pnode t) {
     if (t){
         
         t->cnt = 1 + cnt(t->l) + cnt (t->r);
     } 
 }
 
-void push (Node * it) {
+void push (pnode it) {
     if (it && it->rev) {
         it->rev = false;
         swap (it->l, it->r);
@@ -33,7 +35,7 @@ void push (Node * it) {
 
 
 
-void split(Node * t, Node * &l, Node * &r,int key,int add = 0){
+void split(pnode t, pnode &l, pnode &r,int key,int add = 0){
     
     if(!t){
         return void( l = r = NULL );
@@ -50,7 +52,7 @@ void split(Node * t, Node * &l, Node * &r,int key,int add = 0){
     upd_cnt (t);
 }
 
-void merge(Node* &t,Node* l, Node* r){
+void merge(pnode &t,pnode l, pnode r){
     push(l);
     push(r);
     if (!l || !r)
@@ -63,36 +65,44 @@ void merge(Node* &t,Node* l, Node* r){
     upd_cnt (t);
 }
 
-void insert(Node* &t,Node* n,int key){  
-    Node *t1,*t2;
+void insert(pnode &t,pnode n,int key){  
+    pnode t1,t2;
     split(t,t1,t2,key);
     // cout<<"oi\n";
     merge(t1,t1,n);
     merge(t,t1,t2);
 }
 
-void reverse (Node * t, int l, int r) {
+void reverse (pnode t, int l, int r) {
     if(l>=r)
         return;
-    Node * t1, * t2, * t3;
+    pnode t1,t2,t3;
     split (t, t1, t2, l);
     split (t2, t2, t3, r-l+1);
     t2->rev ^= true;
     merge (t, t1, t2);
     merge (t, t, t3);
 }
-void output (Node* t) {
+void output (pnode t) {
     if (!t)  return;
     // push (t);
     output (t->l);
     cout<<t->value<<" ";
     output (t->r);
 }
-void clr (Node* &t) {
+void clr (pnode &t) {
     if (!t)  return;
     clr (t->l);
     clr (t->r);
     delete t;
     t=NULL;
     // cout<<t<<"\n";
+}
+
+void erase(pnode &t,int key)
+{
+    pnode t1,t2,t3;
+    split(t,t1,t2,key-1);
+    split(t2,t2,t3,key);
+    merge(t,t1,t3);
 }
